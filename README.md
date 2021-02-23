@@ -20,4 +20,5 @@
 
 ##
 *Commits
-1.Make commits on this branch and push this branch to Github (git push origin :milestone_1).
+1.Make commits to local repository (git commit -m "Commit Message"
+2.Push to remote repository branch on Github (git push origin :milestone_1).
