@@ -6,9 +6,10 @@ const socket = io(); // Connects to socket connection
 export function Square(props) {
     useEffect(() => {
     socket.on('click', (data) => {
-      console.log('Click event received!');
-      console.log(data.id);
-      document.getElementById(data.id).innerHTML = "X";
+        if (data.id==props.id){
+            console.log('Square #' + data.id + ' has changed to X by Opponent');
+            document.getElementById(data.id).innerHTML = "X";
+        }
     });
   }, []);
     
@@ -19,7 +20,7 @@ export function Square(props) {
 }
         
 function clickDiv(id, name) {
-    console.log(id);
+    console.log('Square #' + id + ' has changed to X by User');
     document.getElementById(id).innerHTML = "X";
     socket.emit('click', { id });
 }

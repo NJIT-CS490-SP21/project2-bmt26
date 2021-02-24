@@ -36,10 +36,12 @@ def on_click(data): # data is whatever arg you pass in your emit call on client
     # the client that emmitted the event that triggered this function
     socketio.emit('click',  data, broadcast=True, include_self=False)
     
-@socketio.on('loginAttempt')
-def loginAttempt(username):
-    print(str(username))
-    socketio.emit('loginSuccess',  username, broadcast=False, include_self=True)
+@socketio.on('click')
+def on_click(data): # data is whatever arg you pass in your emit call on client
+    print(str(data))
+    # This emits the 'chat' event from the server to all clients except for
+    # the client that emmitted the event that triggered this function
+    socketio.emit('click',  data, broadcast=True, include_self=False)
 
 # Note that we don't call app.run anymore. We call socketio.run with app arg
 socketio.run(

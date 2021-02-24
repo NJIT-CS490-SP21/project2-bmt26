@@ -1,11 +1,13 @@
 import logo from './logo.svg';
 import './App.css';
 import './Board.css';
-import { Board } from './Board.js';
+import { Board, Login } from './UI.js';
+
 
 function App() {
   return (
-    <div className="App">
+    <div className="App" id="uiDiv">
+      <Login />
       <Board />
     </div>
   );
