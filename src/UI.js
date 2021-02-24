@@ -1,6 +1,7 @@
 import {useState, useRef, useEffect} from 'react';
 import { Square } from './Square.js';
 import io from 'socket.io-client';
+import { SwitchDisplay } from './UpdateDisplay.js';
 
 const socket = io();
   
@@ -20,10 +21,10 @@ export function Login() {
   useEffect(() => {
     socket.on('loginSuccess', (username) => {
       console.log(username.username + ' has logged in.');
-      if(loginRef.current.value==username.username){
+      if(loginRef.current != null && loginRef.current.value==username.username){
         console.log('Login successful! Username is ' + username.username);
-        document.getElementById("b").style.display = "grid";
-        document.getElementById("loginDiv").remove();
+        SwitchDisplay(true);
+        //document.getElementById("loginDiv").remove();
       }
     });
   }, []);
@@ -46,7 +47,7 @@ export function Board() {
   const [board, setBoard] = useState(['', '', '', '', '', '', '', '', '']);
   
   return (
-    <div class="board" id="b" >
+    <div className="board" id="b" >
       <Square id="0" name={board[0]} />
       <Square id="1" name={board[1]} />
       <Square id="2" name={board[2]} />
@@ -58,6 +59,4 @@ export function Board() {
       <Square id="8" name={board[8]} />
     </div>
   )
-}
-
-
+};

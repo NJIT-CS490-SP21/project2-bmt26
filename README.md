@@ -20,6 +20,7 @@
 
 ##
 *Commits
-1. Add to Index (git add ".")
-2. Make commits to local repository (git commit -m "Commit Message"
-3. Push to remote repository branch on Github (git push origin :milestone_1).
+-1. Make sure you are working in the right branch. (git checkout milestone_1).
+1. Add to Index (git add ".").
+2. Make commits to local repository (git commit -m "Commit Message").
+3. Push to remote repository branch on Github (git push origin milestone_1).
