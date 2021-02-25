@@ -4,10 +4,11 @@ from flask_socketio import SocketIO
 from flask_cors import CORS
 
 app = Flask(__name__, static_folder='./build/static')
-
 cors = CORS(app, resources={r"/*": {"origins": "*"}})
-
 userList = []
+
+global xTurn
+xTurn=True
 
 socketio = SocketIO(
     app,
@@ -37,16 +38,17 @@ def on_chat(data):
 
 @socketio.on('clickAttempt')
 def on_click(data):
-    if(data.get('username')==userList[0]): {
+    global xTurn
+    if((data.get('username')==userList[0]) and (xTurn)): 
         socketio.emit('clickSuccessX', data, broadcast=True, include_self=True)
-    }
-    elif(data.get('username')==userList[1]): {
+        xTurn=not xTurn
+    elif((data.get('username')==userList[1]) and (not xTurn)): 
         socketio.emit('clickSuccessO',  data, broadcast=True, include_self=True)
-    }
-    else: {
+        xTurn=not xTurn
+    else: 
         socketio.emit('clickFailed',  data, broadcast=True, include_self=True)
-    }
     
+
 @socketio.on('loginAttempt')
 def loginAttempt(username):
     if not (username.get('username') in userList): 

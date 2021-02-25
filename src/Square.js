@@ -18,8 +18,10 @@ export function Square(props) {
         }
     });
     socket.on('clickFailed', ( data ) => {
-        console.log('Click Failed');
-        console.log(data);
+        if (data.username==props.username) {
+            console.log('Click Failed');
+            console.log(data);
+        }
     });
   }, []);
   
