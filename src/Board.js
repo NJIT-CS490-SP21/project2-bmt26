@@ -1,20 +1,20 @@
 import {useState, useRef, useEffect} from 'react';
 import { Square } from './Square.js';
 
-export function Board() {
+export function Board(props) {
   const [board, setBoard] = useState(['', '', '', '', '', '', '', '', '']);
   
   return (
     <div className="board" id="b" >
-      <Square id="0" name={board[0]} />
-      <Square id="1" name={board[1]} />
-      <Square id="2" name={board[2]} />
-      <Square id="3" name={board[3]} />
-      <Square id="4" name={board[4]} />
-      <Square id="5" name={board[5]} />
-      <Square id="6" name={board[6]} />
-      <Square id="7" name={board[7]} />
-      <Square id="8" name={board[8]} />
+      <Square id="0" face={board[0]} username={props.username}/>
+      <Square id="1" face={board[1]} username={props.username}/>
+      <Square id="2" face={board[2]} username={props.username}/>
+      <Square id="3" face={board[3]} username={props.username}/>
+      <Square id="4" face={board[4]} username={props.username}/>
+      <Square id="5" face={board[5]} username={props.username}/>
+      <Square id="6" face={board[6]} username={props.username}/>
+      <Square id="7" face={board[7]} username={props.username}/>
+      <Square id="8" face={board[8]} username={props.username}/>
     </div>
   )
 };

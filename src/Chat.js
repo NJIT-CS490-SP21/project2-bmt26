@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import io from 'socket.io-client';
 import { useState, useRef, useEffect } from 'react';
 import { ListItem } from './ListItem.js';
@@ -13,7 +12,7 @@ export function Chat(props) {
   function onClickButton() {
     if (inputRef != null) {
       const message = inputRef.current.value;
-      setMessages(prevMessages => [...prevMessages, "<>:" + message]);
+      setMessages(prevMessages => [...prevMessages, "<you>:" + message]);
       socket.emit('chat', { username: props.username, message: message });
     }
   }
@@ -37,6 +36,12 @@ export function Chat(props) {
       if(props.username==data.username){
         console.log('Logout event failed!');
       }
+    });
+    
+    socket.on('print', (data) => {
+      console.log('Chat event received!');
+      console.log(data);
+      setMessages(prevMessages => [...prevMessages, data]);
     });
     
   }, []);

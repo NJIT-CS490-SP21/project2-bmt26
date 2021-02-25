@@ -32,18 +32,20 @@ def on_disconnect():
     print('User disconnected!')
 
 @socketio.on('chat')
-def on_chat(data): # data is whatever arg you pass in your emit call on client
-    print(str(data))
-    # This emits the 'chat' event from the server to all clients except for
-    # the client that emmitted the event that triggered this function
+def on_chat(data): 
     socketio.emit('chat',  data, broadcast=True, include_self=False)
 
-@socketio.on('click')
-def on_click(data): # data is whatever arg you pass in your emit call on client
-    print(str(data))
-    # This emits the 'chat' event from the server to all clients except for
-    # the client that emmitted the event that triggered this function
-    socketio.emit('click',  data, broadcast=True, include_self=False)
+@socketio.on('clickAttempt')
+def on_click(data):
+    if(data.get('username')==userList[0]): {
+        socketio.emit('clickSuccessX', data, broadcast=True, include_self=True)
+    }
+    elif(data.get('username')==userList[1]): {
+        socketio.emit('clickSuccessO',  data, broadcast=True, include_self=True)
+    }
+    else: {
+        socketio.emit('clickFailed',  data, broadcast=True, include_self=True)
+    }
     
 @socketio.on('loginAttempt')
 def loginAttempt(username):

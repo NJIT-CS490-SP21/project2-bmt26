@@ -5,23 +5,35 @@ const socket = io(); // Connects to socket connection
 
 export function Square(props) {
     useEffect(() => {
-    socket.on('click', (data) => {
+    socket.on('clickSuccessX', ( data ) => {
         if (data.id==props.id){
-            console.log('Square #' + data.id + ' has changed to X by Opponent');
+            console.log('Square #' + data.id + ' has changed to X by <' + data.username + '>');
             document.getElementById(data.id).innerHTML = "X";
         }
     });
+    socket.on('clickSuccessO', ( data ) => {
+        if (data.id==props.id){
+            console.log('Square #' + data.id + ' has changed to O by <' + data.username + '>');
+            document.getElementById(data.id).innerHTML = "O";
+        }
+    });
+    socket.on('clickFailed', ( data ) => {
+        console.log('Click Failed');
+        console.log(data);
+    });
   }, []);
+  
+  
+    function clickDiv(id, username) {
+        console.log('Square #' + id + ' has been attempt to be changed by you (<' + username + '>)');
+        socket.emit('clickAttempt',  {id: id, username: username} );
+    }
     
     return(
         
-        <div id={props.id} className="box" onClick={() => clickDiv(props.id, props.name)}>{props.name}</div>
+        <div id={props.id} className="box" onClick={() => clickDiv(props.id, props.username)}>{props.face}</div>
     )
 }
         
-function clickDiv(id, name) {
-    console.log('Square #' + id + ' has changed to X by User');
-    document.getElementById(id).innerHTML = "X";
-    socket.emit('click', { id });
-}
+
 
