@@ -53,6 +53,15 @@ def loginAttempt(username):
     else:
         socketio.emit('loginFailed', username, broadcast=False, include_self=True)
 
+@socketio.on('logoutAttempt')
+def logoutAttempt(username):
+    if (username.get('username') in userList): 
+        userList.remove(username.get('username'))
+        socketio.emit('logoutSuccess',  username, broadcast=True, include_self=True)
+    else:
+        socketio.emit('logoutFailed', username, broadcast=False, include_self=True)
+
+
 # Note that we don't call app.run anymore. We call socketio.run with app arg
 socketio.run(
     app,

@@ -1,9 +1,14 @@
+import io from 'socket.io-client';
+
+const socket = io();
+
 export function LogoutButton(props) {
     function onClickButton() {
-        console.log("Test Logout Button");
-  }
-  
-  return (
-     <button onClick={onClickButton}>Logout</button>
-  )
+        const username = props.username;
+        socket.emit('logoutAttempt', { username: username });
+    }
+    
+    return (
+        <button onClick={onClickButton}>Logout</button>
+    )
 };
