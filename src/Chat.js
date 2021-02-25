@@ -13,8 +13,8 @@ export function Chat(props) {
   function onClickButton() {
     if (inputRef != null) {
       const message = inputRef.current.value;
-      setMessages(prevMessages => [...prevMessages, message]);
-      socket.emit('chat', { message: message });
+      setMessages(prevMessages => [...prevMessages, "<>:" + message]);
+      socket.emit('chat', { username: props.username, message: message });
     }
   }
 
@@ -22,12 +22,12 @@ export function Chat(props) {
     socket.on('chat', (data) => {
       console.log('Chat event received!');
       console.log(data);
-      setMessages(prevMessages => [...prevMessages, data.message]);
+      setMessages(prevMessages => [...prevMessages, "<"+data.username+">: "+data.message]);
     });
   
   socket.on('logoutSuccess', (data) => {
       console.log('Logout event received!');
-      setMessages(prevMessages => [...prevMessages, "User \'"+data.username+"\' has logged out."]);
+      setMessages(prevMessages => [...prevMessages, "User <"+data.username+"> has logged out."]);
       if(props.username==data.username){
         SwitchDisplay(false, "null");
       }

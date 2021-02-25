@@ -30,7 +30,7 @@ export function LoginPrompt(props) {
     });
     socket.on('loginFailed', (username) => {
       if(loginRef.current != null && loginRef.current.value==username.username){
-        console.log('Login Failed: Username: \'' + username.username + '\' already taken.');
+        console.log('Login Failed: Username: <' + username.username + '> already taken.');
         loginFailedPrompt(false);
       }
     });

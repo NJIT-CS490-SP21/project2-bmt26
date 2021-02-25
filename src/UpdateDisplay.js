@@ -12,7 +12,7 @@ export function UpdateDisplay(props){
     return(
       <div>
         <Board username={username}/>
-        Logged in as '{username}' <LogoutButton username={username}/>
+        Logged in as &lt;{username}&gt; <LogoutButton username={username}/>
         <Chat username={username}/>
       </div>
     );
