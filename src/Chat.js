@@ -33,7 +33,7 @@ export function Chat(props) {
       console.log('Logout event received!');
       setMessages(prevMessages => [...prevMessages, "User <"+data.username+"> has logged out."]);
       if(props.username==data.username){
-        SwitchDisplay(false, "null");
+        SwitchDisplay(false, "null", true);
       }
     });
     

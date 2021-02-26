@@ -31,7 +31,7 @@ export function Square(props) {
   
   
     function clickDiv(id, username) {
-        console.log('Square #' + id + ' has been attempt to be changed by you (<' + username + '>)');
+        console.log('Square #' + id + ' has been attempted to be changed by you (<' + username + '>)');
         socket.emit('clickAttempt',  {id: id, username: username} );
     }
     

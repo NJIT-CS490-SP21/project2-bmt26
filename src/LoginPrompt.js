@@ -24,7 +24,7 @@ export function LoginPrompt(props) {
       console.log(username.username + ' has logged in.');
       if(loginRef.current != null && loginRef.current.value==username.username){
         console.log('Login successful! Username is ' + username.username);
-        SwitchDisplay(true, username.username);
+        SwitchDisplay(true, username.username, false);
         //document.getElementById("loginDiv").remove();
       }
     });
@@ -37,7 +37,7 @@ export function LoginPrompt(props) {
   }, []);
   
   
-  if (firstAttempt==true) {
+  if (firstAttempt) {
     return (
       <div id="loginDiv">
         <h1>Login to Enter or View Game</h1>

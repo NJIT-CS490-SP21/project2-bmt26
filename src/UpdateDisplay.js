@@ -15,19 +15,29 @@ const socket = io();
 export function UpdateDisplay(props){
   const isLoggedIn = props.isLoggedIn;
   const username = props.username;
-  const restart = props.restart;
+  const firstAttempt = props.firstAttempt;
   
   useEffect(() => {
-    socket.on('gameOver', (data) => {
+    socket.on('playAgainPrompt', (data) => {
+      if (data.user0==username || data.user1==username) {
+        SwitchDisplay(true, username, true);
+      }
+    });
+    socket.on('playAgainSuccess', (data) => {
       if (data.username==username) {
-        Restart(isLoggedIn, username);
+        SwitchDisplay(true, username, false);
+      }
+    });
+    socket.on('notAgainSuccess', (data) => {
+      if (data.username==username) {
+        SwitchDisplay(true, username, false);
       }
     });
   }, []);
   
   
   if (isLoggedIn==true) {
-    if (restart==true) {
+    if (firstAttempt==true) {
       return(
         <div>
           <Board username={username}/>
@@ -47,19 +57,13 @@ export function UpdateDisplay(props){
       </div>
     );
   }
-  return(<LoginPrompt firstAttempt={props}/>);
+  return(<LoginPrompt firstAttempt={firstAttempt}/>);
 }
 
-export function Restart(){
-  ReactDom.render(
-    <UpdateDisplay isLoggedIn={arguments[0]} username={arguments[1]} restart={true}/>,
-    document.getElementById('root')
-  )
-}
 
 export function SwitchDisplay(){
   ReactDom.render(
-    <UpdateDisplay isLoggedIn={arguments[0]} username={arguments[1]} restart={false}/>,
+    <UpdateDisplay isLoggedIn={arguments[0]} username={arguments[1]} firstAttempt={arguments[2]}/>,
     document.getElementById('root')
   )
 }
