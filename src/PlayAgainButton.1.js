@@ -1,8 +1,6 @@
 import { useEffect } from 'react';
 import ReactDom from 'react-dom';
 import io from 'socket.io-client';
-import './App.css';
-import './Board.css';
 
 const socket = io();
 

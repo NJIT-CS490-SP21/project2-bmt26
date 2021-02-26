@@ -17,45 +17,21 @@ export function UpdateDisplay(props){
   const username = props.username;
   const firstAttempt = props.firstAttempt;
   
-  useEffect(() => {
-    socket.on('playAgainPrompt', (data) => {
-      if (data.user0==username || data.user1==username) {
-        SwitchDisplay(true, username, true);
-      }
-    });
-    socket.on('playAgainSuccess', (data) => {
-      if (data.username==username) {
-        SwitchDisplay(true, username, false);
-      }
-    });
-    socket.on('notAgainSuccess', (data) => {
-      if (data.username==username) {
-        SwitchDisplay(true, username, false);
-      }
-    });
-  }, []);
+  
   
   
   if (isLoggedIn==true) {
-    if (firstAttempt==true) {
-      return(
-        <div>
-          <Board username={username}/>
-          Logged in as &lt;{username}&gt; <LogoutButton username={username}/>
-          <PlayAgainButton username={username}/>
-          <UserList />
-          <Chat username={username}/>
-        </div>
-      );
-    }
     return(
       <div>
         <Board username={username}/>
         Logged in as &lt;{username}&gt; <LogoutButton username={username}/>
+        <div  id = 'text'>
+          <PlayAgainButton username={username} firstAttempt={firstAttempt} id = {'text'}/>
+        </div>
         <UserList />
         <Chat username={username}/>
       </div>
-    );
+      );
   }
   return(<LoginPrompt firstAttempt={firstAttempt}/>);
 }
@@ -64,7 +40,7 @@ export function UpdateDisplay(props){
 export function SwitchDisplay(){
   ReactDom.render(
     <UpdateDisplay isLoggedIn={arguments[0]} username={arguments[1]} firstAttempt={arguments[2]}/>,
-    document.getElementById('root')
+    document.getElementById('uiDiv')
   )
 }
 

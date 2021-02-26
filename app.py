@@ -107,7 +107,7 @@ def playAgainAttempt(username) :
             else :
                 ready2 = True
             socketio.emit('playAgainSuccess', username, broadcast=False, include_self=True)
-        elif userList[1] == username.get('username') : 
+        elif userList[1] == username.get('username') :
             if not ready2:
                 ready2 = True
             else :
@@ -122,8 +122,6 @@ def playAgainAttempt(username) :
 def notAgainAttempt(username) :
     global ready1, ready2
     if len(userList)>=2 and ( userList[0]==username.get('username') or userList[1]==username.get('username') ) : 
-        socketio.emit('print',  (userList[0] == username.get('username')), broadcast=False, include_self=True)
-        socketio.emit('print',  (userList[1] == username.get('username')), broadcast=False, include_self=True)
         if userList[0] == username.get('username') :
             if not ready1:
                 ready1 = True
