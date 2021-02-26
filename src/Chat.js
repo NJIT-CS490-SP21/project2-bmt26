@@ -23,7 +23,12 @@ export function Chat(props) {
       console.log(data);
       setMessages(prevMessages => [...prevMessages, "<"+data.username+">: "+data.message]);
     });
-  
+    
+    socket.on('loginSuccess', (data) => {
+      console.log(data.username + ' has logged in.');
+      setMessages(prevMessages => [...prevMessages, "User <"+data.username+"> has logged in."]);
+    });
+    
   socket.on('logoutSuccess', (data) => {
       console.log('Logout event received!');
       setMessages(prevMessages => [...prevMessages, "User <"+data.username+"> has logged out."]);
@@ -44,9 +49,14 @@ export function Chat(props) {
       setMessages(prevMessages => [...prevMessages, data]);
     });
     
-  socket.on('alertWin', (data) => {
-      console.log('Win event received!');
-      setMessages(prevMessages => [...prevMessages, "Player "+data.face+" has Won!"]);
+  socket.on('gameOver', (data) => {
+      console.log('Game Over event received!');
+      if (data.face=='') {
+        setMessages(prevMessages => [...prevMessages, "Draw!"]);
+      }
+      else {
+        setMessages(prevMessages => [...prevMessages, "Player <"+ data.username + '> (' + data.face + ')' + " has Won!"]);
+      }
     });
     
     

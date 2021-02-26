@@ -60,34 +60,37 @@ def on_click(data):
     if success:
         temp = 0
         if(ticList[0]!='' and ticList[0]==ticList[1] and ticList[1]==ticList[2]):
-            temp = {'face': ticList[0]}
+            temp = {'face': ticList[0], 'username': data.get('username')}
             
         elif(ticList[3]!='' and ticList[3]==ticList[4] and ticList[4]==ticList[5]):
-            temp = {'face': ticList[3]}
+            temp = {'face': ticList[3], 'username': data.get('username')}
             
         elif(ticList[6]!='' and ticList[6]==ticList[7] and ticList[7]==ticList[8]):
-            temp = {'face': ticList[6]}
+            temp = {'face': ticList[6], 'username': data.get('username')}
             
         elif(ticList[0]!='' and ticList[0]==ticList[3] and ticList[3]==ticList[6]):
-            temp = {'face': ticList[0]}
+            temp = {'face': ticList[0], 'username': data.get('username')}
             
         elif(ticList[1]!='' and ticList[1]==ticList[4] and ticList[4]==ticList[7]):
-            temp = {'face': ticList[1]}
+            temp = {'face': ticList[1], 'username': data.get('username')}
             
         elif(ticList[2]!='' and ticList[2]==ticList[5] and ticList[5]==ticList[8]):
-            temp = {'face': ticList[2]}
+            temp = {'face': ticList[2], 'username': data.get('username')}
         
         elif(ticList[0]!='' and ticList[0]==ticList[4] and ticList[4]==ticList[8]):
-            temp = {'face': ticList[0]}
+            temp = {'face': ticList[0], 'username': data.get('username')}
         
         elif(ticList[2]!='' and ticList[2]==ticList[4] and ticList[4]==ticList[6]):
-            temp = {'face': ticList[2]}
-            
+            temp = {'face': ticList[2], 'username': data.get('username')}
+        
+        elif(not ('' in ticList)):
+            temp = {'face': '', 'username': data.get('username')}
+        
         else:
             success=False
         
         if success==True:
-            socketio.emit('alertWin',  temp, broadcast=True, include_self=True)
+            socketio.emit('gameOver',  temp, broadcast=True, include_self=True)
             ticList = ['', '', '', '', '', '', '', '', '']
             xTurn=True
 
@@ -96,6 +99,7 @@ def loginAttempt(username):
     if not (username.get('username') in userList): 
         userList.append(username.get('username'))
         socketio.emit('loginSuccess',  username, broadcast=False, include_self=True)
+        socketio.emit('userList',  userList, broadcast=True, include_self=True)
         
     else:
         socketio.emit('loginFailed', username, broadcast=False, include_self=True)
@@ -105,6 +109,8 @@ def logoutAttempt(username):
     if (username.get('username') in userList): 
         userList.remove(username.get('username'))
         socketio.emit('logoutSuccess',  username, broadcast=True, include_self=True)
+        socketio.emit('userList',  userList, broadcast=True, include_self=True)
+        
     else:
         socketio.emit('logoutFailed', username, broadcast=False, include_self=True)
 

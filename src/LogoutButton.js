@@ -4,8 +4,7 @@ const socket = io();
 
 export function LogoutButton(props) {
     function onClickButton() {
-        const username = props.username;
-        socket.emit('logoutAttempt', { username: username });
+        socket.emit('logoutAttempt', { username: props.username });
     }
     
     return (

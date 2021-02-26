@@ -23,7 +23,7 @@ export function Square(props) {
             console.log(data);
         }
     });
-    socket.on('alertWin', ( data ) => {
+    socket.on('gameOver', ( data ) => {
         console.log("Board Reset")
         document.getElementById(props.id).innerHTML = "";
     });
