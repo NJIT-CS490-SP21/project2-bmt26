@@ -44,20 +44,18 @@ def on_click(data):
     global xTurn
     global ticList
     success=False
-    if((data.get('username')==userList[0]) and (xTurn)): 
+    if((xTurn) and (ticList[int(data.get('id'))]=='') and (data.get('username')==userList[0])): 
         success=True
         socketio.emit('clickSuccessX', data, broadcast=True, include_self=True)
         ticList[int(data.get('id'))]='X'
         xTurn=not xTurn
-    elif((data.get('username')==userList[1]) and (not xTurn)): 
+    elif((not xTurn) and (ticList[int(data.get('id'))]=='') and (data.get('username')==userList[1])): 
         success=True
         socketio.emit('clickSuccessO',  data, broadcast=True, include_self=True)
         ticList[int(data.get('id'))]='O'
         xTurn=not xTurn
     else: 
         socketio.emit('clickFailed',  data, broadcast=True, include_self=True)
-        
-    socketio.emit('print',  xTurn, broadcast=True, include_self=False)
     
     if success:
         temp = 0
