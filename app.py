@@ -5,49 +5,13 @@ from flask_cors import CORS
 
 app = Flask(__name__, static_folder='./build/static')
 cors = CORS(app, resources={r"/*": {"origins": "*"}})
+
+global userList
+global xTurn
+global ticList
 userList = []
 ticList = ['', '', '', '', '', '', '', '', '']
-
-global xTurn
 xTurn=True
-
-def checkWin():
-    if(ticList[0]==ticList[1] and ticList[1]==ticList[2]):
-        temp = {'face': ticList[0]}
-        alertWin(temp)
-    
-    elif(ticList[3]==ticList[4] and ticList[4]==ticList[5]):
-        temp = {'face': ticList[3]}
-        alertWin(temp)
-    
-    elif(ticList[6]==ticList[7] and ticList[7]==ticList[8]):
-        temp = {'face': ticList[6]}
-        alertWin(temp)
-    
-    elif(ticList[0]==ticList[3] and ticList[3]==ticList[6]):
-        temp = {'face': ticList[0]}
-        alertWin(temp)
-    
-    elif(ticList[1]==ticList[4] and ticList[4]==ticList[7]):
-        temp = {'face': ticList[1]}
-        alertWin(temp)
-        
-    elif(ticList[2]==ticList[5] and ticList[5]==ticList[8]):
-        temp = {'face': ticList[2]}
-        alertWin(temp)
-    
-    elif(ticList[0]==ticList[4] and ticList[4]==ticList[8]):
-        temp = {'face': ticList[0]}
-        alertWin(temp)
-    
-    elif(ticList[2]==ticList[4] and ticList[4]==ticList[6]):
-        temp = {'face': ticList[2]}
-        alertWin(temp)
-    
-
-def alertWin(props):
-    socketio.emit('win',  props, broadcast=True, include_self=True)
-
 
 socketio = SocketIO(
     app,
@@ -78,17 +42,56 @@ def on_chat(data):
 @socketio.on('clickAttempt')
 def on_click(data):
     global xTurn
+    global ticList
+    success=False
     if((data.get('username')==userList[0]) and (xTurn)): 
+        success=True
         socketio.emit('clickSuccessX', data, broadcast=True, include_self=True)
-        ticList[data.id]='X'
+        ticList[int(data.get('id'))]='X'
         xTurn=not xTurn
     elif((data.get('username')==userList[1]) and (not xTurn)): 
+        success=True
         socketio.emit('clickSuccessO',  data, broadcast=True, include_self=True)
-        ticTList[data.id]='O'
+        ticList[int(data.get('id'))]='O'
         xTurn=not xTurn
     else: 
         socketio.emit('clickFailed',  data, broadcast=True, include_self=True)
+        
+    socketio.emit('print',  xTurn, broadcast=True, include_self=False)
     
+    if success:
+        temp = 0
+        if(ticList[0]!='' and ticList[0]==ticList[1] and ticList[1]==ticList[2]):
+            temp = {'face': ticList[0]}
+            
+        elif(ticList[3]!='' and ticList[3]==ticList[4] and ticList[4]==ticList[5]):
+            temp = {'face': ticList[3]}
+            
+        elif(ticList[6]!='' and ticList[6]==ticList[7] and ticList[7]==ticList[8]):
+            temp = {'face': ticList[6]}
+            
+        elif(ticList[0]!='' and ticList[0]==ticList[3] and ticList[3]==ticList[6]):
+            temp = {'face': ticList[0]}
+            
+        elif(ticList[1]!='' and ticList[1]==ticList[4] and ticList[4]==ticList[7]):
+            temp = {'face': ticList[1]}
+            
+        elif(ticList[2]!='' and ticList[2]==ticList[5] and ticList[5]==ticList[8]):
+            temp = {'face': ticList[2]}
+        
+        elif(ticList[0]!='' and ticList[0]==ticList[4] and ticList[4]==ticList[8]):
+            temp = {'face': ticList[0]}
+        
+        elif(ticList[2]!='' and ticList[2]==ticList[4] and ticList[4]==ticList[6]):
+            temp = {'face': ticList[2]}
+            
+        else:
+            success=False
+        
+        if success==True:
+            socketio.emit('alertWin',  temp, broadcast=True, include_self=True)
+            ticList = ['', '', '', '', '', '', '', '', '']
+            xTurn=True
 
 @socketio.on('loginAttempt')
 def loginAttempt(username):

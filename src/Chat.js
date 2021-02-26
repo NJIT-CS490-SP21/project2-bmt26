@@ -38,11 +38,17 @@ export function Chat(props) {
       }
     });
     
-    socket.on('print', (data) => {
+  socket.on('print', (data) => {
       console.log('Chat event received!');
       console.log(data);
       setMessages(prevMessages => [...prevMessages, data]);
     });
+    
+  socket.on('alertWin', (data) => {
+      console.log('Win event received!');
+      setMessages(prevMessages => [...prevMessages, "Player "+data.face+" has Won!"]);
+    });
+    
     
   }, []);
 
