@@ -70,7 +70,9 @@ function SwitchButton(){
   console.log(arguments[0]);
   console.log(arguments[1]);
   ReactDom.render(
-    <PlayAgainButton username={arguments[0]} firstAttempt={arguments[1]}/>,
-    document.getElementById('text')
+    <div  id = 'play_again'>
+      <PlayAgainButton username={arguments[0]} firstAttempt={arguments[1]}/>
+    </div>,
+    document.getElementById('play_again')
   )
 }

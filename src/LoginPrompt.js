@@ -39,7 +39,7 @@ export function LoginPrompt(props) {
   
   if (firstAttempt) {
     return (
-      <div id="loginDiv">
+      <div id="login">
         <h1>Login to Enter or View Game</h1>
         Enter Username Here: <input ref={loginRef} type="text" />
         <button onClick={loginAttempt}>Login</button>
@@ -47,11 +47,7 @@ export function LoginPrompt(props) {
     )
   }
   return (
-    <div id="loginDiv"
-    style={{
-        left: '50%'
-    }}
-    >
+    <div id="login">
       <h1>Login to Enter or View Game</h1>
       Enter Username Here: <input ref={loginRef} type="text" />
       <button onClick={loginAttempt}>Login</button>
@@ -63,8 +59,8 @@ export function LoginPrompt(props) {
 
 export function loginFailedPrompt(props){
     ReactDom.render(
-    <LoginPrompt firstAttempt={props} />,
-    document.getElementById('root')
+      <LoginPrompt firstAttempt={props} />,
+    document.getElementById('display')
     )
 }
 

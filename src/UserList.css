@@ -1,0 +1,10 @@
+.UserList {
+  width: 150%;
+  height:100px;
+  overflow:auto;
+  background-color:lightgrey;
+  color:black;
+  font-family:sans-serif;
+  text-align:left;
+}
+

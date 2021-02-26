@@ -5,10 +5,8 @@ import { LogoutButton } from './LogoutButton.js';
 import { PlayAgainButton } from './PlayAgainButton.js';
 import { UserList } from './UserList.js';
 import { Chat } from './Chat.js';
-import { useEffect } from 'react';
-import io from 'socket.io-client';
-
-const socket = io();
+import './App.css';
+import './Board.css';
 
 
 
@@ -18,21 +16,22 @@ export function UpdateDisplay(props){
   const firstAttempt = props.firstAttempt;
   
   
-  
-  
   if (isLoggedIn==true) {
     return(
-      <div>
-        <Board username={username}/>
-        Logged in as &lt;{username}&gt; <LogoutButton username={username}/>
-        <div  id = 'text'>
-          <PlayAgainButton username={username} firstAttempt={firstAttempt} id = {'text'}/>
-        </div>
-        <UserList />
-        <Chat username={username}/>
+      <div id='logged_in'>
+        <ul>
+          <li> <UserList /> </li>
+          <li>
+            <Board username={username}/>
+            <div id='user'> Logged in as &lt;{username}&gt; <LogoutButton username={username}/> </div>
+            <div  id = 'play_again'> <PlayAgainButton username={username} firstAttempt={firstAttempt}/> </div>
+          </li>
+          <li> <Chat username={username}/> </li>
+        </ul>
       </div>
       );
   }
+  
   return(<LoginPrompt firstAttempt={firstAttempt}/>);
 }
 
@@ -40,7 +39,7 @@ export function UpdateDisplay(props){
 export function SwitchDisplay(){
   ReactDom.render(
     <UpdateDisplay isLoggedIn={arguments[0]} username={arguments[1]} firstAttempt={arguments[2]}/>,
-    document.getElementById('uiDiv')
+    document.getElementById('display')
   )
 }
 

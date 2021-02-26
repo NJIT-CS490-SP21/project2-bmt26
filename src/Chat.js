@@ -63,7 +63,7 @@ export function Chat(props) {
   }, []);
 
   return (
-    <div>
+    <div id='chat'>
       <h1>Chat Messages</h1>
       Enter message here: <input ref={inputRef} type="text" />
       <button onClick={onClickButton}>Send</button>

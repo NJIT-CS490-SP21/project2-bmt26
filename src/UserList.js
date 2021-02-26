@@ -27,11 +27,11 @@ export function UserList() {
   
   
   return (
-    <div>
+    <div id='user_list'>
       <h1>User List</h1>
-      <ul>
-        {userList.map((item, index) => <ListItem key={index} name={item} />)}
-      </ul>
+        <ul className='UserList'>
+          {userList.map((item, index) => <ListItem key={index} name={item} />)}
+        </ul>
     </div>
   );
 }

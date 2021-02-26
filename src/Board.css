@@ -1,9 +1,4 @@
-body {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-   flex-wrap: wrap;
-}
+
 .board {
   width: 200%;
 	display: grid; /* Enables CSS Grid */ 
