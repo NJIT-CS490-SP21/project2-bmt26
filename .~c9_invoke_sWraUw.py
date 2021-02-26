@@ -13,41 +13,23 @@ xTurn=True
 
 def checkWin():
     if(ticList[0]==ticList[1] and ticList[1]==ticList[2]):
-        temp = {'face': ticList[0]}
-        alertWin(temp)
-    
+        
     elif(ticList[3]==ticList[4] and ticList[4]==ticList[5]):
-        temp = {'face': ticList[3]}
-        alertWin(temp)
-    
+        
     elif(ticList[6]==ticList[7] and ticList[7]==ticList[8]):
-        temp = {'face': ticList[6]}
-        alertWin(temp)
-    
+        
     elif(ticList[0]==ticList[3] and ticList[3]==ticList[6]):
-        temp = {'face': ticList[0]}
-        alertWin(temp)
-    
+        
     elif(ticList[1]==ticList[4] and ticList[4]==ticList[7]):
-        temp = {'face': ticList[1]}
-        alertWin(temp)
         
     elif(ticList[2]==ticList[5] and ticList[5]==ticList[8]):
-        temp = {'face': ticList[2]}
-        alertWin(temp)
-    
+        
     elif(ticList[0]==ticList[4] and ticList[4]==ticList[8]):
-        temp = {'face': ticList[0]}
-        alertWin(temp)
-    
+        
     elif(ticList[2]==ticList[4] and ticList[4]==ticList[6]):
-        temp = {'face': ticList[2]}
-        alertWin(temp)
-    
-
-def alertWin(props):
-    socketio.emit('win',  props, broadcast=True, include_self=True)
-
+        
+def alertWin():
+    socketio.emit('win',  face:X, broadcast=True, include_self=True)
 
 socketio = SocketIO(
     app,
