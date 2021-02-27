@@ -7,6 +7,8 @@ const socket = io(); // Connects to socket connection
 export function UserList() {
   const [userList, setUserList] = useState([]); // State variable, list of users
   
+  
+  
   useEffect(() => {
     socket.on('userList', (data) => {
       console.log('User list received!');
@@ -27,11 +29,11 @@ export function UserList() {
   
   
   return (
-    <div id='user_list'>
-      <h1>User List</h1>
-        <ul className='UserList'>
-          {userList.map((item, index) => <ListItem key={index} name={item} />)}
-        </ul>
+    <div className='chat'>
+      <h2>User List</h2>
+      <ul className='scrollbox'>
+        {userList.map((item, index) => <ListItem key={index} name={item} />)}
+      </ul>
     </div>
   );
 }

@@ -1,12 +1,13 @@
 import io from 'socket.io-client';
 import ReactDom from 'react-dom';
 import {useState, useRef, useEffect} from 'react';
-import { SwitchDisplay } from './UpdateDisplay.js';
+import { SwitchDisplay } from './App.js';
 
 const socket = io();
   
 export function LoginPrompt(props) {
   const loginRef = useRef(null);
+  var isLoggedIn = props.isLoggedIn;
   const firstAttempt = props.firstAttempt;
   
   
@@ -23,13 +24,14 @@ export function LoginPrompt(props) {
     socket.on('loginSuccess', (username) => {
       console.log(username.username + ' has logged in.');
       if(loginRef.current != null && loginRef.current.value==username.username){
+        isLoggedIn=true;
         console.log('Login successful! Username is ' + username.username);
         SwitchDisplay(true, username.username, false);
         //document.getElementById("loginDiv").remove();
       }
     });
     socket.on('loginFailed', (username) => {
-      if(loginRef.current != null && loginRef.current.value==username.username){
+      if(loginRef.current != null && !isLoggedIn && loginRef.current.value==username.username){
         console.log('Login Failed: Username: <' + username.username + '> already taken.');
         loginFailedPrompt(false);
       }

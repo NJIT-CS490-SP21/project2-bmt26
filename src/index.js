@@ -6,7 +6,7 @@ import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <App isLoggedIn='false' username = 'null' firstAttempt = 'true'/>
   </React.StrictMode>,
   document.getElementById('root')
 );

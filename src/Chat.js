@@ -1,7 +1,7 @@
 import io from 'socket.io-client';
 import { useState, useRef, useEffect } from 'react';
 import { ListItem } from './ListItem.js';
-import { SwitchDisplay } from './UpdateDisplay.js';
+import { SwitchDisplay } from './App.js';
 
 const socket = io(); // Connects to socket connection
 
@@ -63,13 +63,13 @@ export function Chat(props) {
   }, []);
 
   return (
-    <div id='chat'>
-      <h1>Chat Messages</h1>
-      Enter message here: <input ref={inputRef} type="text" />
-      <button onClick={onClickButton}>Send</button>
-      <ul>
+    <div id='chat' className='chat'>
+      <h2>Chat Messages</h2>
+      <ul className='scrollbox'>
         {messages.map((item, index) => <ListItem key={index} name={item} />)}
       </ul>
+      Enter message here: <input ref={inputRef} type="text" />
+      <button onClick={onClickButton}>Send</button>
     </div>
   );
 }
