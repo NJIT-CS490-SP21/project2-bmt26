@@ -29,6 +29,7 @@
 ##
 *Heroku
 1. npm install-g heroku
+2. heroku login -i
 2. heroku create --buildpack heroku/python
 3. heroku buildpacks:add --index 1 heroku/nodejs
 4. git push heroku milestone\_1 (assuming you are downloading from milestone\_1 branch, else main will do fine)
