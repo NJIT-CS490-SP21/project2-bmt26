@@ -1,0 +1,60 @@
+import { useState, useEffect } from 'react';
+import { ListItem } from './ListItem.js';
+import ReactDom from 'react-dom';
+import io from 'socket.io-client';
+
+const socket = io();
+
+export function LeaderBoard(props) {
+  const displayLeaderBoard = props.displayLeaderBoard;
+  const username = props.username;
+  const [leaderBoard, setLeaderBoard] = useState([]); // State variable, list of users
+  
+  function showLeaderBoard() {
+    ReloadLeaderBoard(username, true);
+    socket.emit('requestLeaderBoard', { username: username });
+  }
+  
+  function hideLeaderBoard() {
+    ReloadLeaderBoard(username, false);
+  }
+  
+  useEffect(() => {
+    
+    socket.on('sentLeaderBoard', (data) => {
+      console.log(data);
+      if(data.username==username){
+        console.log('Leaderboard received!');
+        setLeaderBoard([]);
+        for (const i in data) {
+          setLeaderBoard(prevMessages => [...prevMessages, "Player X: <"+ data[i] +">"]);
+        }
+      }
+    });
+    
+  }, []);
+  
+  
+  if(displayLeaderBoard) {
+    return (
+      <div>
+        <h2>LeaderBoard</h2>
+        <ul className='fullscrollbox'>
+          {leaderBoard.map((item, index) => <ListItem key={index} name={item} />)}
+        </ul>
+        <button onClick={hideLeaderBoard}>Hide LeaderBoard</button>
+      </div>
+    );
+  }
+  return(<button onClick={showLeaderBoard}>Show LeaderBoard</button>);
+};
+
+
+function ReloadLeaderBoard(){
+  ReactDom.render(
+    <div  id = 'leaderboard'>
+      <LeaderBoard username={arguments[0]} displayLeaderBoard={arguments[1]}/>
+    </div>,
+    document.getElementById('leaderboard')
+  )
+}

@@ -65,8 +65,6 @@ export function PlayAgainButton(props) {
 
 
 function SwitchButton(){
-  console.log(arguments[0]);
-  console.log(arguments[1]);
   ReactDom.render(
     <div  id = 'play_again'>
       <PlayAgainButton username={arguments[0]} firstAttempt={arguments[1]}/>

@@ -5,6 +5,7 @@ import { LogoutButton } from './LogoutButton.js';
 import { PlayAgainButton } from './PlayAgainButton.js';
 import { UserList } from './UserList.js';
 import { Chat } from './Chat.js';
+import { LeaderBoard } from './LeaderBoard.js'
 
 
 
@@ -20,14 +21,17 @@ export function App(props){
         <h1>Tic Tac Toe</h1>
         <div id='logged_in'>
           <ul>
+            <li> 
+              <UserList />
+              <div id='user' className='chat'> Logged in as &lt;{username}&gt; <LogoutButton username={username} /> </div>
+              <Chat username={username}/>
+            </li>
             <li>
               <Board username={username}/>
               <div  id = 'play_again'> <PlayAgainButton username={username} firstAttempt={firstAttempt}/> </div>
             </li>
             <li> 
-              <UserList />
-              <div id='user' className='chat'> Logged in as &lt;{username}&gt; <LogoutButton username={username} /> </div>
-              <Chat username={username}/>
+              <div  id = 'leaderboard' className='chat'> <LeaderBoard username={username} displayLeaderBoard={false}/> </div>
             </li>
           </ul>
         </div>

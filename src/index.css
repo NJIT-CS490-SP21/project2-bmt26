@@ -57,3 +57,12 @@ ul{
   text-align:left;
   border:1px solid #220819;
 }
+
+.fullscrollbox {
+  width: 368px;
+  height: 597px;
+  overflow:auto;
+  background-color: #ddddff;
+  text-align:left;
+  border:1px solid #220819;
+}
