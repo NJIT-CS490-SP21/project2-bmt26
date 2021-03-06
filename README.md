@@ -7,10 +7,13 @@
 1. Create a Heroku account
 2. Download Heroku to your gitbash
 3. In gitbash, sign into Heroku: `Heroku login -i`
-2. Create a Heroku app: `heroku create --buildpack heroku/python`
-3. Add nodejs buildpack: `heroku buildpacks:add --index 1 heroku/nodejs`
-4. Push to Heroku: `git push heroku main`
-6. Open heroku using gitbash, and enter the page url in your web browser.
+4. Create a Heroku app: `heroku create --buildpack heroku/python`
+5. Add nodejs buildpack: `heroku buildpacks:add --index 1 heroku/nodejs`
+6. Create a new database on your heroku: `heroku addons:create heroku-postgresql:hobby-dev`
+7. Find the config vars of the new database `heroku config`
+8. Put this value into DATABASE\_URL `export DATABASE_URL='result of heroku config goes here'`
+6. Push to Heroku: `git push heroku main`
+7. Open heroku using gitbash, and enter the page url in your web browser.
 
 ## Usage 
 ### When visiting the webpage, the user is prompted to submit a unqiue username to sign in. If the username is taken the user must type a different one. Once signed in, the users enter a queue, where the first and second users are allowed to click the tic tac toe squares and assign them X and O, respectively, in turn. Once there are three of the same letter in a row, or if the game ends in a draw, a dialog is sent to all users' chat logs alerting them the condition of the game ending, whether one user won, or the game was a draw. The top two players are then allowed to play again, or enter the queue from the back and let the next player in line play. All users are able to send messages to the chat log.

@@ -2,8 +2,20 @@ import os
 from flask import Flask, send_from_directory, json, session
 from flask_socketio import SocketIO
 from flask_cors import CORS
+from flask_sqlalchemy import SQLAlchemy
+from dotenv import load_dotenv, find_dotenv
+
+
+load_dotenv(find_dotenv()) # This is to load your env variables from .env
 
 app = Flask(__name__, static_folder='./build/static')
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+db = SQLAlchemy(app)
+
+import userTemplate
+
 cors = CORS(app, resources={r"/*": {"origins": "*"}})
 
 global userList, xTurn, ticList, ready1, ready2
@@ -19,7 +31,7 @@ socketio = SocketIO(
     json=json,
     manage_session=False
 )
-
+    
 @app.route('/', defaults={"filename": "index.html"})
 @app.route('/<path:filename>')
 def index(filename):
@@ -42,7 +54,13 @@ def on_chat(data):
 
 @socketio.on('requestLeaderBoard')
 def sendLeaderBoard(data): 
-    socketio.emit('sentLeaderBoard',  data, broadcast=True, include_self=False)
+    allUsers = userTemplate.Template.query.all()
+    user_List = []
+    rank_List = []
+    for person in allUsers:
+        user_List.append(person.username)
+        rank_List.append(person.rank)
+    socketio.emit('sentLeaderBoard', {'users': user_List , 'rank': rank_List})
 
 @socketio.on('clickAttempt')
 def on_click(data):
@@ -94,6 +112,26 @@ def on_click(data):
             success=False
         
         if success==True:
+            if temp['face']!='':
+                winner=userTemplate.Template.query.filter_by(username=temp['username']).first()
+                winner.rank+=1
+                db.session.commit()
+                if temp['username']==userList[1]:
+                    loser=userTemplate.Template.query.filter_by(username=userList[0]).first()
+                    loser.rank-=1
+                    db.session.commit()
+                else:
+                    loser=userTemplate.Template.query.filter_by(username=userList[1]).first()
+                    loser.rank-=1
+                    db.session.commit()
+                
+            allUsers = userTemplate.Template.query.all()
+            user_List = []
+            rank_List = []
+            for person in allUsers:
+                user_List.append(person.username)
+                rank_List.append(person.rank)
+            socketio.emit('sentLeaderBoard', {'users': user_List , 'rank': rank_List})
             socketio.emit('gameOver',  temp, broadcast=True, include_self=True)
             temp = {'user0': userList[0], 'user1': userList[1]}
             socketio.emit('playAgainPrompt',  temp, broadcast=True, include_self=True)
@@ -101,6 +139,7 @@ def on_click(data):
             ready1=False
             ready2=False
             xTurn=True
+            
 
 @socketio.on('playAgainAttempt')
 def playAgainAttempt(username) :
@@ -152,6 +191,24 @@ def loginAttempt(username):
     global ready1, ready2
     if not (username.get('username') in userList): 
         userList.append(username.get('username'))
+        allUsers = userTemplate.Template.query.all()
+        personExist = False;
+        for person in allUsers:
+            if username.get('username')==person.username:
+                personExist=True
+        if not personExist:
+            new_user = userTemplate.Template(username=username.get('username'), rank=100)
+            db.session.add(new_user)
+            db.session.commit()
+            user_List = []
+            rank_List = []
+            for person in allUsers:
+                user_List.append(person.username)
+                rank_List.append(person.rank)
+            socketio.emit('sentLeaderBoard', {'users': user_List , 'rank': rank_List})
+        
+        
+        
         socketio.emit('loginSuccess',  username, broadcast=False, include_self=True)
         socketio.emit('userList',  userList, broadcast=True, include_self=True)
         if len(userList)==1 :
@@ -177,9 +234,9 @@ def logoutAttempt(username):
         socketio.emit('logoutFailed', username, broadcast=False, include_self=True)
 
 
-# Note that we don't call app.run anymore. We call socketio.run with app arg
-socketio.run(
-    app,
-    host=os.getenv('IP', '0.0.0.0'),
-    port=8081 if os.getenv('C9_PORT') else int(os.getenv('PORT', 8081)),
-);
+if __name__ == "__main__":
+    socketio.run(
+        app,
+        host=os.getenv('IP', '0.0.0.0'),
+        port=8081 if os.getenv('C9_PORT') else int(os.getenv('PORT', 8081)),
+    )

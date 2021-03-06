@@ -13,7 +13,7 @@ export function UserList() {
     socket.on('userList', (data) => {
       console.log('User list received!');
       setUserList([]);
-      for (const i in data) {
+      for (var i in data) {
         if ( data[i]==data[0] ) {
           setUserList(prevMessages => [...prevMessages, "Player X: <"+ data[i] +">"]);
         }

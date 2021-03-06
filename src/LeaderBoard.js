@@ -23,11 +23,11 @@ export function LeaderBoard(props) {
     
     socket.on('sentLeaderBoard', (data) => {
       console.log(data);
-      if(data.username==username){
+      if(displayLeaderBoard){
         console.log('Leaderboard received!');
         setLeaderBoard([]);
-        for (const i in data) {
-          setLeaderBoard(prevMessages => [...prevMessages, "Player X: <"+ data[i] +">"]);
+        for (var i in data['rank']) {
+          setLeaderBoard(prevMessages => [...prevMessages, data['users'][i] + ": " + data['rank'][i]]);
         }
       }
     });
