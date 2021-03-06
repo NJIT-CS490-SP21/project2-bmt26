@@ -15,7 +15,7 @@ export function App(props){
   const firstAttempt = props.firstAttempt;
   
   
-  if (isLoggedIn==true) {
+  if (isLoggedIn===true) {
     return(
       <div className="App" id="display">
         <h1>Tic Tac Toe</h1>
