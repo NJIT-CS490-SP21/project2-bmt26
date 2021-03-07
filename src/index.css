@@ -26,6 +26,7 @@ ul{
 
 
 
+
 .board {
   width: 600px;
   height: 600px;
@@ -67,6 +68,6 @@ ul{
   border:1px solid #220819;
 }
 
-ul:nth-child(1).leader {
+.fullscrollbox p:nth-child(1){
   color: #0000FF;
 }

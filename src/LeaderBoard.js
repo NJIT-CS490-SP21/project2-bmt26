@@ -46,7 +46,7 @@ export function LeaderBoard(props) {
       <div>
         <h2>LeaderBoard</h2>
         <ul className='fullscrollbox'>
-          {leaderBoard.map((item, index) => <ListItem className='leader' key={index} name={item} />)}
+          {leaderBoard.map((item, index) => <ListItem key={index} name={item} />)}
         </ul>
         <button onClick={hideLeaderBoard}>Hide LeaderBoard</button>
       </div>
