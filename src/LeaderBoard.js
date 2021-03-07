@@ -22,25 +22,31 @@ export function LeaderBoard(props) {
   useEffect(() => {
     
     socket.on('sentLeaderBoard', (data) => {
-      console.log(data);
       if(displayLeaderBoard){
         console.log('Leaderboard received!');
         setLeaderBoard([]);
         for (var i in data['rank']) {
-          setLeaderBoard(prevMessages => [...prevMessages, data['users'][i] + ": " + data['rank'][i]]);
+          if(data['users'][i]==username) {
+            setLeaderBoard(prevMessages => [...prevMessages, data['users'][i] + ": " + data['rank'][i]]);
+            for (var j in data['rank']) {
+              if (i!=j){
+                setLeaderBoard(prevMessages => [...prevMessages, data['users'][j] + ": " + data['rank'][j]]);
+              }
+            }
+            break;
+          }
         }
       }
     });
     
   }, []);
   
-  
   if(displayLeaderBoard) {
     return (
       <div>
         <h2>LeaderBoard</h2>
         <ul className='fullscrollbox'>
-          {leaderBoard.map((item, index) => <ListItem key={index} name={item} />)}
+          {leaderBoard.map((item, index) => <ListItem className='leader' key={index} name={item} />)}
         </ul>
         <button onClick={hideLeaderBoard}>Hide LeaderBoard</button>
       </div>

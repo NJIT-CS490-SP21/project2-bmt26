@@ -66,3 +66,7 @@ ul{
   text-align:left;
   border:1px solid #220819;
 }
+
+ul:nth-child(1).leader {
+  color: #0000FF;
+}

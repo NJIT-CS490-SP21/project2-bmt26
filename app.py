@@ -114,9 +114,17 @@ def on_click(data):
         
         if success==True:
             if temp['face']!='':
-                winner=userTemplate.Template.query.filter_by(username=temp['username']).first()
-                winner.rank=winner.rank+1
+                winner=db.session.query(userTemplate.Template).filter_by(username=temp['username']).first()
+                winner.rank+=1
                 db.session.commit()
+                if temp['username']==userList[1]:
+                    loser=db.session.query(userTemplate.Template).filter_by(username=userList[0]).first()
+                    loser.rank-=1
+                    db.session.commit()
+                else:
+                    loser=db.session.query(userTemplate.Template).filter_by(username=userList[1]).first()
+                    loser.rank-=1
+                    db.session.commit()
                 
             
             allUsers = userTemplate.Template.query.all()
