@@ -1,9 +1,7 @@
 import { useState, useEffect } from 'react';
 import { ListItem } from './ListItem.js';
 import ReactDom from 'react-dom';
-import io from 'socket.io-client';
-
-const socket = io();
+import { socket } from './App.js';
 
 export function LeaderBoard(props) {
   const displayLeaderBoard = props.displayLeaderBoard;

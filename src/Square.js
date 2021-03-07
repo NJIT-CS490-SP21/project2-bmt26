@@ -1,7 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import io from 'socket.io-client';
-
-const socket = io(); // Connects to socket connection
+import { socket } from './App.js';
 
 export function Square(props) {
     useEffect(() => {

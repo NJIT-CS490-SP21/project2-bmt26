@@ -1,8 +1,6 @@
-import io from 'socket.io-client';
 import { useState, useEffect } from 'react';
 import { ListItem } from './ListItem.js';
-
-const socket = io(); // Connects to socket connection
+import { socket } from './App.js';
 
 export function UserList() {
   const [userList, setUserList] = useState([]); // State variable, list of users

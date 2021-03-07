@@ -1,8 +1,6 @@
 import { useEffect } from 'react';
 import ReactDom from 'react-dom';
-import io from 'socket.io-client';
-
-const socket = io();
+import { socket } from './App.js';
 
 export function PlayAgainButton(props) {
   const firstAttempt = props.firstAttempt;

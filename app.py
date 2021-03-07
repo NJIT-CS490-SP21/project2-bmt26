@@ -142,8 +142,6 @@ def on_click(data):
             ready2=False
             xTurn=True
             
-            socketio.emit('print',  'test', broadcast=True, include_self=True)
-            
 
 @socketio.on('playAgainAttempt')
 def playAgainAttempt(username) :

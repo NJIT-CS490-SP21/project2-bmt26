@@ -1,9 +1,7 @@
-import io from 'socket.io-client';
 import { useState, useRef, useEffect } from 'react';
 import { ListItem } from './ListItem.js';
-import { SwitchDisplay } from './App.js';
-
-const socket = io(); // Connects to socket connection
+import { SwitchDisplay, socket } from './App.js';
+ // Connects to socket connection
 
 export function Chat(props) {
   const [messages, setMessages] = useState([]); // State variable, list of messages
@@ -12,7 +10,7 @@ export function Chat(props) {
   function onClickButton() {
     if (inputRef != null) {
       const message = inputRef.current.value;
-      setMessages(prevMessages => [...prevMessages, "<you>:" + message]);
+      setMessages(prevMessages => [...prevMessages, "<you>: " + message]);
       socket.emit('chat', { username: props.username, message: message });
     }
   }

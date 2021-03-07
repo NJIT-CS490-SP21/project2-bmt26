@@ -1,6 +1,4 @@
-import io from 'socket.io-client';
-
-const socket = io();
+import { socket } from './App.js';
 
 export function LogoutButton(props) {
     function onClickButton() {

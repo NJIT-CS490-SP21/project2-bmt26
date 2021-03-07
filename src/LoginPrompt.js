@@ -1,9 +1,7 @@
-import io from 'socket.io-client';
 import ReactDom from 'react-dom';
 import {useState, useRef, useEffect} from 'react';
-import { SwitchDisplay } from './App.js';
+import { SwitchDisplay, socket } from './App.js';
 
-const socket = io();
   
 export function LoginPrompt(props) {
   const loginRef = useRef(null);

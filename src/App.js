@@ -5,9 +5,10 @@ import { LogoutButton } from './LogoutButton.js';
 import { PlayAgainButton } from './PlayAgainButton.js';
 import { UserList } from './UserList.js';
 import { Chat } from './Chat.js';
-import { LeaderBoard } from './LeaderBoard.js'
+import { LeaderBoard } from './LeaderBoard.js';
+import io from 'socket.io-client';
 
-
+export const socket = io();
 
 export function App(props){
   const isLoggedIn = props.isLoggedIn;
