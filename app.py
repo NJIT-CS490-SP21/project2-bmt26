@@ -237,6 +237,7 @@ def logoutAttempt(username):
 
 
 if __name__ == "__main__":
+    db.create_all()
     socketio.run(
         app,
         host=os.getenv('IP', '0.0.0.0'),
