@@ -24,6 +24,18 @@ export function LeaderBoard(props) {
         console.log('Leaderboard received!');
         setLeaderBoard([]);
         for (var i in data['rank']) {
+          for (let j = i; j<data['rank'].length; j++) {
+            if (data['rank'][i]<data['rank'][j]){
+              var temp1 = data['rank'][i];
+              data['rank'][i]=data['rank'][j];
+              data['rank'][j]=temp1;
+              temp1 = data['users'][i];
+              data['users'][i]=data['users'][j];
+              data['users'][j]=temp1;
+            }
+          }
+        }
+        for (var i in data['rank']) {
           if(data['users'][i]==username) {
             setLeaderBoard(prevMessages => [...prevMessages, data['users'][i] + ": " + data['rank'][i]]);
             for (var j in data['rank']) {
