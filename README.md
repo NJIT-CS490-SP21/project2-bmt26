@@ -20,9 +20,9 @@
 ### When visiting the webpage, the user is prompted to submit a unqiue username to sign in. If the username is taken the user must type a different one. Once signed in, the users enter a queue, where the first and second users are allowed to click the tic tac toe squares and assign them X and O, respectively, in turn. Once there are three of the same letter in a row, or if the game ends in a draw, a dialog is sent to all users' chat logs alerting them the condition of the game ending, whether one user won, or the game was a draw. The top two players are then allowed to play again, or enter the queue from the back and let the next player in line play. All users are able to send messages to the chat log.
 
 # Technical Issues
-- In order to hide the Tic Tac Toe board I initially created propmted a change in style, but this lead to issues in styling, so I used ReactDom to load in the board depending on server messages
-- The Chat history and User logs would default to blank when there was a game over. I had to make a reactdom specifically for the play again prompt, in the .jss file designated for the play again prompt.
-- Creating a play again button had a lot of trouble, as I had to add in several server side variables that checked whether or not the players where ready before allowing any user to change the board. Additionally, I had to allow only the first two players to see the prompt, and prevent any other players from sending a message to the server thus, overriding the first and second players' choices.
+- Updating the rank of users in the database was difficult as I could not determine how to edit an old row. This was overcome by researching databases and determing I had to directly reference the database in the call.
+- Ordering the users by rank was difficult as I didnt know how to reorder a database. I opted to simply sort them client side, as opposed to constantly updating the database.
+- Reducing server lag was slightly troubling. It turned out to be an issue of declaring too many io sockets, and instead I declared one and exported it through every file that needed it.
 
 
 # Known Issues
