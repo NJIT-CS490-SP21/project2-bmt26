@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { socket } from "./App.js";
+import PropTypes from 'prop-types';
 
 export function Square(props) {
   useEffect(() => {
@@ -25,7 +26,7 @@ export function Square(props) {
         console.log(data);
       }
     });
-    socket.on("gameOver", (data) => {
+    socket.on("gameOver", () => {
       console.log("Board Reset");
       document.getElementById(props.id).innerHTML = "";
     });
@@ -51,4 +52,10 @@ export function Square(props) {
       {props.face}
     </div>
   );
+}
+
+Square.propTypes = {
+  username: PropTypes.node.isRequired,
+  id: PropTypes.node.isRequired,
+  face: PropTypes.node.isRequired,
 }

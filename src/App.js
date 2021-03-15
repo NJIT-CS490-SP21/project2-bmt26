@@ -1,3 +1,5 @@
+import React from 'react';
+import PropTypes from 'prop-types';
 import ReactDom from "react-dom";
 import { LoginPrompt } from "./LoginPrompt.js";
 import { Board } from "./Board.js";
@@ -73,4 +75,9 @@ export function SwitchDisplay() {
   );
 }
 
+App.propTypes = {
+  isLoggedIn: PropTypes.node.isRequired,
+  username: PropTypes.node.isRequired,
+  firstAttempt: PropTypes.node.isRequired,
+}
 export default App;

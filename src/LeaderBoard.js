@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, React } from "react";
+import PropTypes from 'prop-types';
 import { ListItem } from "./ListItem.js";
 import ReactDom from "react-dom";
 import { socket } from "./App.js";
@@ -22,7 +23,8 @@ export function LeaderBoard(props) {
       if (displayLeaderBoard) {
         console.log("Leaderboard received!");
         setLeaderBoard([]);
-        for (var i in data["rank"]) {
+        var i;
+        for (i in data["rank"]) {
           for (let j = i; j < data["rank"].length; j++) {
             if (data["rank"][i] < data["rank"][j]) {
               var temp1 = data["rank"][i];
@@ -34,7 +36,7 @@ export function LeaderBoard(props) {
             }
           }
         }
-        for (var i in data["rank"]) {
+        for (i in data["rank"]) {
           if (data["users"][i] == username) {
             setLeaderBoard((prevMessages) => [
               ...prevMessages,
@@ -78,4 +80,9 @@ function ReloadLeaderBoard() {
     </div>,
     document.getElementById("leaderboard")
   );
+}
+
+LeaderBoard.propTypes = {
+  displayLeaderBoard: PropTypes.node.isRequired,
+  username: PropTypes.node.isRequired,
 }

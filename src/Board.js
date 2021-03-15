@@ -1,8 +1,9 @@
-import { useState, useRef, useEffect } from "react";
+import { React, useState } from "react";
+import PropTypes from 'prop-types';
 import { Square } from "./Square.js";
 
 export function Board(props) {
-  const [board, setBoard] = useState(["", "", "", "", "", "", "", "", ""]);
+  const [board] = useState(["", "", "", "", "", "", "", "", ""]);
 
   return (
     <div className="board" id="b">
@@ -17,4 +18,8 @@ export function Board(props) {
       <Square id="8" face={board[8]} username={props.username} />
     </div>
   );
+}
+
+Board.propTypes = {
+  username: PropTypes.node.isRequired,
 }

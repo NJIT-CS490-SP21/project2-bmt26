@@ -1,4 +1,5 @@
-import { useEffect } from "react";
+import { useEffect, React } from "react";
+import PropTypes from 'prop-types';
 import ReactDom from "react-dom";
 import { socket } from "./App.js";
 
@@ -25,11 +26,11 @@ export function PlayAgainButton(props) {
       }
     });
 
-    socket.on("playAgainFailed", (data) => {
+    socket.on("playAgainFailed", () => {
       console.log("Attempt to Play Again Failed");
     });
 
-    socket.on("notAgainFailed", (data) => {
+    socket.on("notAgainFailed", () => {
       console.log("Attempt to Not Play Again Failed");
     });
   }, []);
@@ -63,4 +64,9 @@ function SwitchButton() {
     </div>,
     document.getElementById("play_again")
   );
+}
+
+PlayAgainButton.propTypes = {
+  username: PropTypes.node.isRequired,
+  firstAttempt: PropTypes.node.isRequired,
 }
