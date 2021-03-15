@@ -1,73 +1,73 @@
 body {
   background-color: #9999f5;
   color: #220819;
-  vertical-align:text-top;
-  text-align:center;
+  vertical-align: text-top;
+  text-align: center;
   margin: 0;
-  font-family: Helvetica ;
+  font-family: Helvetica;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
 
 li {
-  display:inline-block;
+  display: inline-block;
   list-style: none;
 }
 
-ul{
+ul {
   padding-left: 0;
 }
-
-
-
-
 
 .board {
   width: 600px;
   height: 600px;
-	display: grid; /* Enables CSS Grid */ 
-	grid-template-columns: repeat(3, 1fr); /* Total horizontal space broken into 3 columns */
-  grid-template-rows: repeat(3, 1fr); /* Total vertical space broken into 3 rows */
+  display: grid; /* Enables CSS Grid */
+  grid-template-columns: repeat(
+    3,
+    1fr
+  ); /* Total horizontal space broken into 3 columns */
+  grid-template-rows: repeat(
+    3,
+    1fr
+  ); /* Total vertical space broken into 3 rows */
 
   /* desired width */
-  
 }
-
 
 .box {
   background-color: #5555a1;
-  border: 1px solid #220819; 
+  border: 1px solid #220819;
   font-size: 170px;
-  color: #FFFFFF;
+  color: #ffffff;
 }
 
 .chat {
-  text-align:left;
+  text-align: left;
 }
 
 .scrollbox {
   width: 368px;
   height: 253px;
-  overflow:auto;
+  overflow: auto;
   background-color: #ddddff;
-  text-align:left;
-  border:1px solid #220819;
+  text-align: left;
+  border: 1px solid #220819;
 }
 
 .fullscrollbox {
   width: 368px;
   height: 597px;
-  overflow:auto;
+  overflow: auto;
   background-color: #ddddff;
-  text-align:left;
-  border:1px solid #220819;
+  text-align: left;
+  border: 1px solid #220819;
 }
 
-.fullscrollbox p:nth-child(1){
-  color: #0000FF;
+.fullscrollbox p:nth-child(1) {
+  color: #0000ff;
 }

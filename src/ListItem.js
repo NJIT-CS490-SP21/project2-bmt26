@@ -1,5 +1,3 @@
 export function ListItem(props) {
-    return <p>
-        {props.name}
-    </p>;
+  return <p>{props.name}</p>;
 }
