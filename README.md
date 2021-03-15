@@ -19,10 +19,10 @@
 9. Push to Heroku: `git push heroku main`
 10. Start your database `sudo service postgresql start`
 11. Enable the Database using python `python`
-    `from app import db`
+    `from app import DB`
     `import userTemplate`
-    `db.create_all()`
-    `db.session.commit()`
+    `DB.create_all()`
+    `DB.session.commit()`
 12. Open heroku using gitbash, and enter the page url in your web browser.
 
 ## Usage

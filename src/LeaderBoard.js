@@ -11,7 +11,7 @@ export function LeaderBoard(props) {
 
   function showLeaderBoard() {
     ReloadLeaderBoard(username, true);
-    socket.emit("requestLeaderBoard", { username: username });
+    socket.emit("requestLeaderBoard");
   }
 
   function hideLeaderBoard() {
