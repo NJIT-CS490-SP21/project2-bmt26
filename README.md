@@ -14,6 +14,11 @@
 8. Put this value into DATABASE\_URL `export DATABASE_URL='result of heroku config goes here'`
 9. Push to Heroku: `git push heroku main`
 10. Start your database `sudo service postgresql start`
+11. Enable the Database using python `python`
+`from app import db`
+`import userTemplate`
+`db.create_all()`
+`db.session.commit()`
 11. Open heroku using gitbash, and enter the page url in your web browser.
 
 ## Usage 
