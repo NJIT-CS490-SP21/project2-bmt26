@@ -1,6 +1,6 @@
 """Server For TicTacToe Game"""
 import os
-from flask import Flask, send_from_directory, json, session
+from flask import Flask, send_from_directory, json
 from dotenv import load_dotenv, find_dotenv
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
@@ -15,7 +15,7 @@ APP.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 global USERLIST, XTURN, TICLIST, READY1, READY2, DB
 DB = SQLAlchemy(APP)
 
-import userTemplate
+import user_template
 
 CORS = CORS(APP, resources={r"/*": {"origins": "*"}})
 
@@ -58,7 +58,7 @@ def on_chat(data):
 @SOCKETIO.on('requestLeaderBoard')
 def send_leader_board():
     """Send Leaderboard Data When Requested"""
-    all_users = userTemplate.Template.query.all()
+    all_users = user_template.Template.query.all()
     user_lists = []
     rank_lists = []
     for person in all_users:
@@ -130,22 +130,22 @@ def on_click(data):
 
         if success:
             if temp['face'] != '':
-                winner = DB.session.query(userTemplate.Template).filter_by(
+                winner = DB.session.query(user_template.Template).filter_by(
                     username=temp['username']).first()
                 winner.rank += 1
                 DB.session.commit()
                 if temp['username'] == USERLIST[1]:
-                    loser = DB.session.query(userTemplate.Template).filter_by(
+                    loser = DB.session.query(user_template.Template).filter_by(
                         username=USERLIST[0]).first()
                     loser.rank -= 1
                     DB.session.commit()
                 else:
-                    loser = DB.session.query(userTemplate.Template).filter_by(
+                    loser = DB.session.query(user_template.Template).filter_by(
                         username=USERLIST[1]).first()
                     loser.rank -= 1
                     DB.session.commit()
 
-            all_users = userTemplate.Template.query.all()
+            all_users = user_template.Template.query.all()
             user_lists = []
             rank_lists = []
             for person in all_users:
@@ -239,14 +239,13 @@ def login_attempt(username):
     global READY1, READY2
     if not username.get('username') in USERLIST:
         USERLIST.append(username.get('username'))
-        all_users = userTemplate.Template.query.all()
+        all_users = user_template.Template.query.all()
         person_exist = False
         for person in all_users:
             if username.get('username') == person.username:
                 person_exist = True
         if not person_exist:
-            new_user = userTemplate.Template(username=username.get('username'),
-                                             rank=100)
+            new_user = user_template.Template(username=username.get('username'), rank=100)
             DB.session.add(new_user)
             DB.session.commit()
             user_lists = []
