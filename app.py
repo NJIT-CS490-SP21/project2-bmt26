@@ -43,10 +43,12 @@ def on_connect():
     """Display User Connecting"""
     print('User connected!')
 
+
 @SOCKETIO.on('disconnect')
 def on_disconnect():
     """Display User Disconnecting"""
     print('User disconnected!')
+
 
 @SOCKETIO.on('chat')
 def on_chat(data):
@@ -55,9 +57,11 @@ def on_chat(data):
     CHATHISTORY = log_chat(data)
     SOCKETIO.emit('chat', data, broadcast=True, include_self=False)
 
+
 def log_chat(data):
     """Logs Chats from Users"""
     return "<" + data['username'] + ">: " + data['message']
+
 
 @SOCKETIO.on('requestLeaderBoard')
 def send_leader_board():
@@ -69,6 +73,7 @@ def send_leader_board():
         user_lists.append(person.username)
         rank_lists.append(person.rank)
     SOCKETIO.emit('sentLeaderBoard', {'users': user_lists, 'rank': rank_lists})
+
 
 @SOCKETIO.on('clickAttempt')
 def on_click(data):
@@ -119,6 +124,7 @@ def on_click(data):
             READY2 = False
             XTURN = True
 
+
 def ticcheck(data):
     """checks if win condition is met"""
     temp = 0
@@ -158,6 +164,7 @@ def ticcheck(data):
         temp = {'face': '', 'username': data.get('username')}
 
     return temp
+
 
 def update_score(temp):
     """Updates players scores"""
@@ -285,9 +292,11 @@ def login_attempt(username):
                       broadcast=False,
                       include_self=True)
 
+
 def login(username):
     """Login any new players"""
-    newplayer = user_template.Template(username=username.get('username'), rank=100)
+    newplayer = user_template.Template(username=username.get('username'),
+                                       rank=100)
     DB.session.add(newplayer)
     DB.session.commit()
     allusers = user_template.Template.query.all()
@@ -295,6 +304,7 @@ def login(username):
     for player in allusers:
         players.append(player.username)
     return players
+
 
 @SOCKETIO.on('logoutAttempt')
 def logout_attempt(username):
@@ -317,9 +327,11 @@ def logout_attempt(username):
                       broadcast=False,
                       include_self=True)
 
+
 def add_user(username):
     """Adds new users to servers list"""
     USERLIST.append(username)
+
 
 def remove_user(username):
     """removes users from servers list"""

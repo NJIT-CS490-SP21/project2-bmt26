@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, React } from "react";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 import { ListItem } from "./ListItem.js";
 import { SwitchDisplay, socket } from "./App.js";
 // Connects to socket connection
@@ -84,7 +84,6 @@ export function Chat(props) {
   );
 }
 
-
 Chat.propTypes = {
   username: PropTypes.node.isRequired,
-}
+};

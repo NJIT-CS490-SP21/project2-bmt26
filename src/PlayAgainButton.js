@@ -1,5 +1,5 @@
 import { useEffect, React } from "react";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 import ReactDom from "react-dom";
 import { socket } from "./App.js";
 
@@ -69,4 +69,4 @@ function SwitchButton() {
 PlayAgainButton.propTypes = {
   username: PropTypes.node.isRequired,
   firstAttempt: PropTypes.node.isRequired,
-}
+};

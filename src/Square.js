@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { socket } from "./App.js";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
 export function Square(props) {
   useEffect(() => {
@@ -58,4 +58,4 @@ Square.propTypes = {
   username: PropTypes.node.isRequired,
   id: PropTypes.node.isRequired,
   face: PropTypes.node.isRequired,
-}
+};

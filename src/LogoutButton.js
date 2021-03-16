@@ -1,6 +1,6 @@
 import { socket } from "./App.js";
 import { React } from "react";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
 export function LogoutButton(props) {
   function onClickButton() {
@@ -12,4 +12,4 @@ export function LogoutButton(props) {
 
 LogoutButton.propTypes = {
   username: PropTypes.node.isRequired,
-}
+};

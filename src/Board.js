@@ -1,5 +1,5 @@
 import { React, useState } from "react";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 import { Square } from "./Square.js";
 
 export function Board(props) {
@@ -22,4 +22,4 @@ export function Board(props) {
 
 Board.propTypes = {
   username: PropTypes.node.isRequired,
-}
+};

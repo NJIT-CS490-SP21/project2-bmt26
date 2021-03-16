@@ -1,5 +1,5 @@
 import { useState, useEffect, React } from "react";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 import { ListItem } from "./ListItem.js";
 import ReactDom from "react-dom";
 import { socket } from "./App.js";
@@ -85,4 +85,4 @@ function ReloadLeaderBoard() {
 LeaderBoard.propTypes = {
   displayLeaderBoard: PropTypes.node.isRequired,
   username: PropTypes.node.isRequired,
-}
+};

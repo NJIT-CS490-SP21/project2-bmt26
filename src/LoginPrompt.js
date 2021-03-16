@@ -1,6 +1,6 @@
 import ReactDom from "react-dom";
 import { useRef, useEffect, React } from "react";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 import { SwitchDisplay, socket } from "./App.js";
 
 export function LoginPrompt(props) {
@@ -73,4 +73,4 @@ export function loginFailedPrompt(props) {
 LoginPrompt.propTypes = {
   isLoggedIn: PropTypes.node.isRequired,
   firstAttempt: PropTypes.node.isRequired,
-}
+};

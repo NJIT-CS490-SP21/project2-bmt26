@@ -1,5 +1,5 @@
 import { React } from "react";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
 export function ListItem(props) {
   return <p>{props.name}</p>;
@@ -7,4 +7,4 @@ export function ListItem(props) {
 
 ListItem.propTypes = {
   name: PropTypes.node.isRequired,
-}
+};
