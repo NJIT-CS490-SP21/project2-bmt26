@@ -12,13 +12,13 @@ APP = Flask(__name__, static_folder='./build/static')
 APP.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
 APP.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-global USERLIST, XTURN, TICLIST, READY1, READY2, DB
 DB = SQLAlchemy(APP)
 
 import user_template
 
 CORS = CORS(APP, resources={r"/*": {"origins": "*"}})
 
+CHATHISTORY = []
 USERLIST = []
 TICLIST = ['', '', '', '', '', '', '', '', '']
 XTURN = True
@@ -48,12 +48,16 @@ def on_disconnect():
     """Display User Disconnecting"""
     print('User disconnected!')
 
-
 @SOCKETIO.on('chat')
 def on_chat(data):
     """Forward User Chats"""
+    global CHATHISTORY
+    CHATHISTORY = log_chat(data)
     SOCKETIO.emit('chat', data, broadcast=True, include_self=False)
 
+def log_chat(data):
+    """Logs Chats from Users"""
+    return "<" + data['username'] + ">: " + data['message']
 
 @SOCKETIO.on('requestLeaderBoard')
 def send_leader_board():
@@ -65,7 +69,6 @@ def send_leader_board():
         user_lists.append(person.username)
         rank_lists.append(person.rank)
     SOCKETIO.emit('sentLeaderBoard', {'users': user_lists, 'rank': rank_lists})
-
 
 @SOCKETIO.on('clickAttempt')
 def on_click(data):
@@ -89,61 +92,11 @@ def on_click(data):
         SOCKETIO.emit('clickFailed', data, broadcast=True, include_self=True)
 
     if success:
-        temp = 0
-        if (TICLIST[0] != '' and TICLIST[0] == TICLIST[1]
-                and TICLIST[1] == TICLIST[2]):
-            temp = {'face': TICLIST[0], 'username': data.get('username')}
-
-        elif (TICLIST[3] != '' and TICLIST[3] == TICLIST[4]
-              and TICLIST[4] == TICLIST[5]):
-            temp = {'face': TICLIST[3], 'username': data.get('username')}
-
-        elif (TICLIST[6] != '' and TICLIST[6] == TICLIST[7]
-              and TICLIST[7] == TICLIST[8]):
-            temp = {'face': TICLIST[6], 'username': data.get('username')}
-
-        elif (TICLIST[0] != '' and TICLIST[0] == TICLIST[3]
-              and TICLIST[3] == TICLIST[6]):
-            temp = {'face': TICLIST[0], 'username': data.get('username')}
-
-        elif (TICLIST[1] != '' and TICLIST[1] == TICLIST[4]
-              and TICLIST[4] == TICLIST[7]):
-            temp = {'face': TICLIST[1], 'username': data.get('username')}
-
-        elif (TICLIST[2] != '' and TICLIST[2] == TICLIST[5]
-              and TICLIST[5] == TICLIST[8]):
-            temp = {'face': TICLIST[2], 'username': data.get('username')}
-
-        elif (TICLIST[0] != '' and TICLIST[0] == TICLIST[4]
-              and TICLIST[4] == TICLIST[8]):
-            temp = {'face': TICLIST[0], 'username': data.get('username')}
-
-        elif (TICLIST[2] != '' and TICLIST[2] == TICLIST[4]
-              and TICLIST[4] == TICLIST[6]):
-            temp = {'face': TICLIST[2], 'username': data.get('username')}
-
-        elif not '' in TICLIST:
-            temp = {'face': '', 'username': data.get('username')}
-
-        else:
+        temp = ticcheck(data)
+        if temp == 0:
             success = False
-
         if success:
-            if temp['face'] != '':
-                winner = DB.session.query(user_template.Template).filter_by(
-                    username=temp['username']).first()
-                winner.rank += 1
-                DB.session.commit()
-                if temp['username'] == USERLIST[1]:
-                    loser = DB.session.query(user_template.Template).filter_by(
-                        username=USERLIST[0]).first()
-                    loser.rank -= 1
-                    DB.session.commit()
-                else:
-                    loser = DB.session.query(user_template.Template).filter_by(
-                        username=USERLIST[1]).first()
-                    loser.rank -= 1
-                    DB.session.commit()
+            update_score(temp)
 
             all_users = user_template.Template.query.all()
             user_lists = []
@@ -165,6 +118,66 @@ def on_click(data):
             READY1 = False
             READY2 = False
             XTURN = True
+
+def ticcheck(data):
+    """checks if win condition is met"""
+    temp = 0
+    if (TICLIST[0] != '' and TICLIST[0] == TICLIST[1]
+            and TICLIST[1] == TICLIST[2]):
+        temp = {'face': TICLIST[0], 'username': data.get('username')}
+
+    elif (TICLIST[3] != '' and TICLIST[3] == TICLIST[4]
+          and TICLIST[4] == TICLIST[5]):
+        temp = {'face': TICLIST[3], 'username': data.get('username')}
+
+    elif (TICLIST[6] != '' and TICLIST[6] == TICLIST[7]
+          and TICLIST[7] == TICLIST[8]):
+        temp = {'face': TICLIST[6], 'username': data.get('username')}
+
+    elif (TICLIST[0] != '' and TICLIST[0] == TICLIST[3]
+          and TICLIST[3] == TICLIST[6]):
+        temp = {'face': TICLIST[0], 'username': data.get('username')}
+
+    elif (TICLIST[1] != '' and TICLIST[1] == TICLIST[4]
+          and TICLIST[4] == TICLIST[7]):
+        temp = {'face': TICLIST[1], 'username': data.get('username')}
+
+    elif (TICLIST[2] != '' and TICLIST[2] == TICLIST[5]
+          and TICLIST[5] == TICLIST[8]):
+        temp = {'face': TICLIST[2], 'username': data.get('username')}
+
+    elif (TICLIST[0] != '' and TICLIST[0] == TICLIST[4]
+          and TICLIST[4] == TICLIST[8]):
+        temp = {'face': TICLIST[0], 'username': data.get('username')}
+
+    elif (TICLIST[2] != '' and TICLIST[2] == TICLIST[4]
+          and TICLIST[4] == TICLIST[6]):
+        temp = {'face': TICLIST[2], 'username': data.get('username')}
+
+    elif not '' in TICLIST:
+        temp = {'face': '', 'username': data.get('username')}
+
+    return temp
+
+def update_score(temp):
+    """Updates players scores"""
+    if temp['face'] != '':
+        winner = DB.session.query(user_template.Template).filter_by(
+            username=temp['username']).first()
+        winner.rank += 1
+        DB.session.commit()
+        if temp['username'] == USERLIST[1]:
+            loser = DB.session.query(user_template.Template).filter_by(
+                username=USERLIST[0]).first()
+            loser.rank -= 1
+            DB.session.commit()
+        else:
+            loser = DB.session.query(user_template.Template).filter_by(
+                username=USERLIST[1]).first()
+            loser.rank -= 1
+            DB.session.commit()
+        return str(winner.rank) + ' to ' + str(loser.rank)
+    return 0
 
 
 @SOCKETIO.on('playAgainAttempt')
@@ -224,7 +237,7 @@ def not_again_attempt(username):
                       username,
                       broadcast=False,
                       include_self=True)
-        SOCKETIO.emit('USERLIST', USERLIST, broadcast=True, include_self=True)
+        SOCKETIO.emit('userList', USERLIST, broadcast=True, include_self=True)
 
     else:
         SOCKETIO.emit('notAgainFailed',
@@ -245,9 +258,7 @@ def login_attempt(username):
             if username.get('username') == person.username:
                 person_exist = True
         if not person_exist:
-            new_user = user_template.Template(username=username.get('username'), rank=100)
-            DB.session.add(new_user)
-            DB.session.commit()
+            login(username)
             user_lists = []
             rank_lists = []
             for person in all_users:
@@ -262,7 +273,7 @@ def login_attempt(username):
                       username,
                       broadcast=False,
                       include_self=True)
-        SOCKETIO.emit('USERLIST', USERLIST, broadcast=True, include_self=True)
+        SOCKETIO.emit('userList', USERLIST, broadcast=True, include_self=True)
         if len(USERLIST) == 1:
             READY1 = True
         elif len(USERLIST) == 2:
@@ -274,6 +285,16 @@ def login_attempt(username):
                       broadcast=False,
                       include_self=True)
 
+def login(username):
+    """Login any new players"""
+    newplayer = user_template.Template(username=username.get('username'), rank=100)
+    DB.session.add(newplayer)
+    DB.session.commit()
+    allusers = user_template.Template.query.all()
+    players = []
+    for player in allusers:
+        players.append(player.username)
+    return players
 
 @SOCKETIO.on('logoutAttempt')
 def logout_attempt(username):
@@ -285,7 +306,7 @@ def logout_attempt(username):
                       username,
                       broadcast=True,
                       include_self=True)
-        SOCKETIO.emit('USERLIST', USERLIST, broadcast=True, include_self=True)
+        SOCKETIO.emit('userList', USERLIST, broadcast=True, include_self=True)
         if len(USERLIST) == 0:
             READY1 = False
         elif len(USERLIST) == 1:
@@ -295,6 +316,18 @@ def logout_attempt(username):
                       username,
                       broadcast=False,
                       include_self=True)
+
+def add_user(username):
+    """Adds new users to servers list"""
+    USERLIST.append(username)
+
+def remove_user(username):
+    """removes users from servers list"""
+    users = []
+    for people in USERLIST:
+        if people != username:
+            users.append(people)
+    return users
 
 
 if __name__ == "__main__":

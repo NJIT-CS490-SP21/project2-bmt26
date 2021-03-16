@@ -3,9 +3,7 @@ import os
 import sys
 
 sys.path.append(os.path.abspath('../../'))
-from app import add_user
-from app import log_chat
-from app import remove_user
+from app import add_user, log_chat, remove_user
 import user_template
 
 KEY_INPUT = "input"
