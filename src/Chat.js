@@ -78,7 +78,7 @@ export function Chat(props) {
           <ListItem key={index} name={item} />
         ))}
       </ul>
-      Enter message here: <input ref={inputRef} type="text" />
+      Enter message here: <input ref={inputRef} id="messagebox" type="text" />
       <button onClick={onClickButton}>Send</button>
     </div>
   );
@@ -87,3 +87,5 @@ export function Chat(props) {
 Chat.propTypes = {
   username: PropTypes.node.isRequired,
 };
+
+export default Chat;

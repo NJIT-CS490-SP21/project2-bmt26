@@ -47,7 +47,8 @@ export function LoginPrompt(props) {
     return (
       <div id="login">
         <h1>Login to Enter or View Game</h1>
-        Enter Username Here: <input ref={loginRef} type="text" />
+        Enter Username Here:{" "}
+        <input ref={loginRef} id="usernamebox" type="text" />
         <button onClick={loginAttempt}>Login</button>
       </div>
     );
@@ -55,7 +56,7 @@ export function LoginPrompt(props) {
   return (
     <div id="login">
       <h1>Login to Enter or View Game</h1>
-      Enter Username Here: <input ref={loginRef} type="text" />
+      Enter Username Here: <input ref={loginRef} id="usernamebox" type="text" />
       <button onClick={loginAttempt}>Login</button>
       <br />
       Username Taken. Try a Different One.
@@ -74,3 +75,5 @@ LoginPrompt.propTypes = {
   isLoggedIn: PropTypes.node.isRequired,
   firstAttempt: PropTypes.node.isRequired,
 };
+
+export default LoginPrompt;

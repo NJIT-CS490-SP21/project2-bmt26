@@ -23,3 +23,5 @@ export function Board(props) {
 Board.propTypes = {
   username: PropTypes.node.isRequired,
 };
+
+export default Board;

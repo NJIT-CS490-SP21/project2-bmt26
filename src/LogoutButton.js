@@ -13,3 +13,5 @@ export function LogoutButton(props) {
 LogoutButton.propTypes = {
   username: PropTypes.node.isRequired,
 };
+
+export default LogoutButton;
