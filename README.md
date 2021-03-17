@@ -42,13 +42,17 @@
 - The css sizes are hardcoded, so they don't work well on very large or very small displays. I would add in a feature to base the css off of the browsers screen size.
 - Users are not logged out when they disconnect, so closing the webpage or refreshing the browser without logging out first keeps the name in the queue, preventing users from logging into that username, or from playing if the user is the controller of X or O. If I had more time I would create a feature that automatically signs users out when disconnecting
 
+some javascript
 eslint .
 
+all javascript
 prettier --write .
 prettier --check .
 
+all python
 yapf -i app.py
-yapf - user_template.py
+yapf -i user_template.py
 
+some python
 pylint -d E1101 -d C0413 -d W1508 -d R0903 -d W0603 user_template.py
 pylint -d E1101 -d C0413 -d W1508 -d R0903 -d W0603 app.py

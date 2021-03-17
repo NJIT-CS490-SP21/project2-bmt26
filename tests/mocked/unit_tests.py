@@ -6,13 +6,13 @@ import os
 import sys
 
 sys.path.append(os.path.abspath('../../'))
-from app import login, update_score
+from app import login, update_score, add_user
 import user_template
 
 KEY_INPUT = "input"
 KEY_USERNAME = "user"
 KEY_EXPECTED = "expected"
-KEY_LETTER = "letter"
+KEY_FACE = "face"
 
 INITIAL_USERNAME = 'James'
 INITIAL_RANK = 100
@@ -66,7 +66,67 @@ class LoginTestCase(unittest.TestCase):
 
                         self.assertEqual(len(actual_result), len(expected_result))
                         self.assertEqual(actual_result, expected_result)
-
+    #DB.session.add(newplayer)
+    #DB.session.commit()
+    #allusers = user_template.Template.query.all()
+    
+    
+class UpdateUserTestCase(unittest.TestCase):
+    def setUp(self):
+        self.success_test_params = [
+            {
+                KEY_USERNAME: 'user',
+                KEY_FACE: 'X',
+                KEY_EXPECTED: '101 to 99',
+            },
+            {
+                KEY_USERNAME: 'sfes_asdf',
+                KEY_FACE: 'X',
+                KEY_EXPECTED: '99 to 101',
+            },
+            {
+                KEY_USERNAME: 'james',
+                KEY_FACE: 'O',
+                KEY_EXPECTED: '100 to 99',
+            },
+        ]
+        
+        initial_user1 = user_template.Template(username=INITIAL_USERLIST[0], rank=100)
+        initial_user2 = user_template.Template(username=INITIAL_USERLIST[1], rank=100)
+        initial_user3 = user_template.Template(username=INITIAL_USERLIST[2], rank=100)
+        initial_user4 = user_template.Template(username=INITIAL_USERLIST[3], rank=100)
+        self.initial_db_mock = [initial_user1, initial_user2, initial_user3, initial_user4, ]
+        
+        #winner = DB.session.query(user_template.Template).filter_by(username=temp['username']).first()
+    def mocked_db_session_add(self, username):
+        self.initial_db_mock.append(username)
+        
+    def mocked_db_session_commit(self):
+        pass
+    
+    def mocked_template_query_all(self, i):
+        for x in range(len(self.initial_db_mock)):
+            if self.initial_db_mock[x].username==i:
+                self.initial_db_mock[x].rank+=1
+                self.initial_db_mock[x+1].rank-=1
+                return self.initial_db_mock[x]
+        return 0
+        
+        
+    def test_update_user_success(self):
+        for person in INITIAL_USERLIST:
+            add_user(person)
+        for test in self.success_test_params:
+            with patch('app.DB.session.add', self.mocked_db_session_add):
+                with patch('app.DB.session.commit', self.mocked_db_session_commit):
+                    with patch('app.DB.session.query') as mocked_query:
+                        mocked_query.filter_by = self.mocked_template_query_all(test[KEY_USERNAME])
+                        update_score({'face': test[KEY_FACE], 'username': test[KEY_USERNAME]})
+                        actual_result = str(self.initial_db_mock[self.success_test_params.index(test)].rank) + " to " + str(self.initial_db_mock[self.success_test_params.index(test)+1].rank)
+                        expected_result = test[KEY_EXPECTED]
+                        
+                        self.assertEqual(len(actual_result), len(expected_result))
+                        self.assertEqual(actual_result, expected_result)
 
 if __name__ == '__main__':
     unittest.main()
